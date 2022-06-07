@@ -1,6 +1,6 @@
-function getRandomNumber (firstNumber, seconfNumber) {
-  const MIN = Math.min(firstNumber, seconfNumber);
-  const MAX = Math.max(firstNumber, seconfNumber);
+function getRandomNumber (firstNumber, secondNumber) {
+  const MIN = Math.min(firstNumber, secondNumber);
+  const MAX = Math.max(firstNumber, secondNumber);
 
   return  Math.round(Math.random() * (MAX - MIN) + MIN);
 }
