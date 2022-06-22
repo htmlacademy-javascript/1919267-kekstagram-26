@@ -34,6 +34,11 @@ const COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
+const Avatar = {
+  MIN: 1,
+  MAX: 6,
+};
+
 const Likes = {
   MIN: 15,
   MAX: 200,
@@ -58,8 +63,8 @@ const getRandomCommentId = () => {
 };
 
 const createNewComment = () => ({
-  id: getRandomCommentId(1, 100),
-  avatar: `img/avatar-${getRandomPositiveInteger(1, 6)}.svg`,
+  id: getRandomCommentId(CommentID.MIN, CommentID.MAX),
+  avatar: `img/avatar-${getRandomPositiveInteger(Avatar.MIN, Avatar.MAX)}.svg`,
   message: getRandomArrayElement(COMMENTS),
   name: getRandomArrayElement(USERS_NAMES),
 });
