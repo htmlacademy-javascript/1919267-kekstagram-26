@@ -1,4 +1,5 @@
 import { createNewPhotos } from './data.js';
+import { showBigPicture } from './big-picture.js';
 
 const picturesContainerElement = document.querySelector('.pictures');
 
@@ -15,6 +16,7 @@ thumbnails.forEach((photo) => {
   newThumbnail.querySelector('.picture__comments').textContent = photo.comments.length;
   newThumbnail.querySelector('.picture__likes').textContent = photo.likes;
   thumbnailsFragment.append(newThumbnail);
+  newThumbnail.addEventListener('click', () => showBigPicture(photo));
 });
 
 picturesContainerElement.append(thumbnailsFragment);
