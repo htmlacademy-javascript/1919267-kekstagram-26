@@ -49,8 +49,6 @@ const CommentID = {
   MAX: 1000,
 };
 
-const PHOTOS_COUNT = 25;
-
 const getRandomCommentId = () => {
   const arrayOfComments = [];
   const randomCommentId = getRandomPositiveInteger(CommentID.MIN, CommentID.MAX);
@@ -85,4 +83,4 @@ const createNewPhotos = (count) => {
   return newPhotos;
 };
 
-export {createNewPhotos, PHOTOS_COUNT};
+export {createNewPhotos};
