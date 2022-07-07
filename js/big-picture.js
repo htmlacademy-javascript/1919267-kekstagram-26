@@ -1,5 +1,3 @@
-import { isEscapeKey } from './utils.js';
-
 const bigPictureElement = document.querySelector('.big-picture');
 const bigPictureCloseElement = bigPictureElement.querySelector('.big-picture__cancel');
 const commentsContainerElement = bigPictureElement.querySelector('.social__comments');
@@ -50,7 +48,7 @@ const closeBigPicture = () => {
 };
 
 function escKeydownHandler(evt) {
-  if (isEscapeKey) {
+  if (evt.key === 'Escape') {
     evt.preventDefault();
     closeBigPicture();
   }
