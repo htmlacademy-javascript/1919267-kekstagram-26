@@ -30,57 +30,80 @@ const EFFECT_PARAMETERS = {
 };
 
 const listOfEffectsContainer = uploadFormElement.querySelector('.effects__list');
-// const effectsRadioInputs = listOfEffectsContainer.querySelectorAll('.effects__radio');
-const imageUploadEffectLevelElement = uploadFormElement.querySelector('.img-upload__effect-level');
+const effectLevelFieldsetElement = uploadFormElement.querySelector('.img-upload__effect-level');
 const effectLevelValueInputElement = uploadFormElement.querySelector('.effect-level__value');
 const effectLevelSliderElement = uploadFormElement.querySelector('.effect-level__slider');
 
-// Изменение масштаба изображения
+// ********************Изменение масштаба изображения **********************************************************
 
 let scaleValue = DEFAULT_SCALE_VALUE;
 
-const changeScaleValue = () => {
+const changeScaleValueInHTML = () => {
   imageUploadPreviewElement.style.transform = `scale(${scaleValue / 100})`;
   scaleValueInputElement.value = `${scaleValue}%`;
 };
 
 const makeScaleValueBigger = () => {
-  if (scaleValue < MAX_SCALE_VALUE) {
+  if (scaleValue + SCALE_VALUE_STEP <= MAX_SCALE_VALUE) {
     scaleValue += SCALE_VALUE_STEP;
+    changeScaleValueInHTML();
   }
-  changeScaleValue();
-  return scaleValue;
 };
 
 const makeScaleValueSmaller = () => {
-  if (scaleValue > MIN_SCALE_VALUE) {
+  if (scaleValue - SCALE_VALUE_STEP >= MIN_SCALE_VALUE) {
     scaleValue -= SCALE_VALUE_STEP;
+    changeScaleValueInHTML();
   }
-  changeScaleValue();
-  return scaleValue;
 };
 
 const addImagePreviewScale = () => {
-  changeScaleValue();
+  imageUploadPreviewElement.style.transform = `scale(${DEFAULT_SCALE_VALUE / 100})`;
+  scaleValueInputElement.value = `${DEFAULT_SCALE_VALUE}%`;
+  scaleValue = DEFAULT_SCALE_VALUE;
 
   scaleBiggerButtonElement.addEventListener('click', makeScaleValueBigger);
   scaleSmallerButtonElement.addEventListener('click', makeScaleValueSmaller);
 };
 
-// Добавление эффекта на изображение
+// ******************** Добавление эффекта на изображение *******************************************
 
-// Создаем слайдер
 noUiSlider.create(effectLevelSliderElement, {
   range: {
     min: 0,
-    max: 100,
+    max: 1,
   },
   step: 0.1,
-  start: 100,
+  start: 1,
   connect: 'lower',
+  format: {
+    to: (value) => {
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(1);
+    },
+    from: (value) => parseFloat(value),
+  },
 });
 
-const addEffectFilter = (filter, filterValue) => {
+const showSlider = () => {
+  effectLevelSliderElement.classList.remove('hidden');
+  effectLevelFieldsetElement.classList.remove('hidden');
+  effectLevelValueInputElement.value = '';
+};
+
+const addClassToPreviewImage = (string) => {
+  imageUploadPreviewElement.classList.add(`effects__preview--${string}`);
+};
+
+const hideSlider = () => {
+  effectLevelSliderElement.classList.add('hidden');
+  effectLevelFieldsetElement.classList.add('hidden');
+  imageUploadPreviewElement.style.filter = '';
+};
+
+const addEffectFilterToPreview = (filter, filterValue) => {
   if (filter === 'marvin') {
     imageUploadPreviewElement.style.filter = `${EFFECT_NAMES[filter]}(${filterValue}%)`;
     effectLevelValueInputElement.value = `${filterValue}%`;
@@ -97,26 +120,30 @@ const addEffectFilter = (filter, filterValue) => {
 
 const addSlider = (item) => {
   if (item.value === 'none') {
-    imageUploadEffectLevelElement.classList.add('hidden');
-    effectLevelValueInputElement.value = '';
-    imageUploadPreviewElement.style.removeProperty('filter');
+    hideSlider();
   } else {
     effectLevelSliderElement.noUiSlider.updateOptions(EFFECT_PARAMETERS[`${item.value}`]);
-    imageUploadEffectLevelElement.classList.remove('hidden');
-    imageUploadPreviewElement.classList.add(`effects__preview--${item.value}`);
-    addEffectFilter(item.value, effectLevelSliderElement.noUiSlider.get());
+    showSlider();
+    addEffectFilterToPreview();
+    addClassToPreviewImage(item.value);
+    effectLevelValueInputElement.value = effectLevelSliderElement.noUiSlider.get();
+    effectLevelSliderElement.noUiSlider.on('update', () => {
+      addEffectFilterToPreview(item.value, effectLevelSliderElement.noUiSlider.get());
+    });
   }
 };
 
-const changeEffectHandler = (evt) => {
-  if (evt.target.matches('input[type="radio"]')) {
-    imageUploadPreviewElement.removeAttribute('class');
-    addSlider(evt.target);
-  }
+const addEffectsToPreviewImage = () => {
+  effectLevelFieldsetElement.classList.add('hidden');
+  imageUploadPreviewElement.style.filter = '';
+  imageUploadPreviewElement.removeAttribute('class');
+  imageUploadPreviewElement.classList.add('effects__preview--none');
+  listOfEffectsContainer.addEventListener('change', (evt) => {
+    if (evt.target.name === 'effect') {
+      imageUploadPreviewElement.removeAttribute('class');
+      addSlider(evt.target);
+    }
+  });
 };
 
-const addEffectOnImage = () => {
-  listOfEffectsContainer.addEventListener('click', changeEffectHandler);
-};
-
-export {addImagePreviewScale, addEffectOnImage};
+export {addImagePreviewScale, addEffectsToPreviewImage};

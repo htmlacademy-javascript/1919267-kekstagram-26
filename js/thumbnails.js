@@ -1,6 +1,5 @@
 import { createNewPhotos } from './data.js';
 import { showBigPicture } from './big-picture.js';
-import { addImagePreviewScale, addEffectOnImage } from './big-picture-settings.js';
 
 const picturesContainerElement = document.querySelector('.pictures');
 
@@ -18,8 +17,6 @@ thumbnails.forEach((photo) => {
   newThumbnail.querySelector('.picture__likes').textContent = photo.likes;
   thumbnailsFragment.append(newThumbnail);
   newThumbnail.addEventListener('click', () => showBigPicture(photo));
-  addImagePreviewScale();
-  addEffectOnImage();
 });
 
 picturesContainerElement.append(thumbnailsFragment);

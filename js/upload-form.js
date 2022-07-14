@@ -1,3 +1,5 @@
+import { addImagePreviewScale, addEffectsToPreviewImage } from './picture-preview-settings.js';
+
 const uploadFormElement = document.querySelector('#upload-select-image');
 const uploadFileElement = uploadFormElement.querySelector('#upload-file');
 const imageUploadCancelElement = uploadFormElement.querySelector('#upload-cancel');
@@ -28,7 +30,8 @@ const openUploadForm = () => {
   uploadFormOverlayElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', escKeydownHandler);
-  // imageUploadPreviewElement.querySelector('img').src = uploadFileElement.value;
+  addImagePreviewScale();
+  addEffectsToPreviewImage();
 };
 
 uploadFileElement.addEventListener('change', openUploadForm);
