@@ -57,10 +57,14 @@ const makeScaleValueSmaller = () => {
   }
 };
 
-const addImagePreviewScale = () => {
+const scaleToDefault = () => {
   imageUploadPreviewElement.style.transform = `scale(${DEFAULT_SCALE_VALUE / 100})`;
   scaleValueInputElement.value = `${DEFAULT_SCALE_VALUE}%`;
   scaleValue = DEFAULT_SCALE_VALUE;
+};
+
+const addImagePreviewScale = () => {
+  scaleToDefault();
 
   scaleBiggerButtonElement.addEventListener('click', makeScaleValueBigger);
   scaleSmallerButtonElement.addEventListener('click', makeScaleValueSmaller);
@@ -146,4 +150,4 @@ const addEffectsToPreviewImage = () => {
   });
 };
 
-export {addImagePreviewScale, addEffectsToPreviewImage};
+export {scaleToDefault, addImagePreviewScale, addEffectsToPreviewImage};

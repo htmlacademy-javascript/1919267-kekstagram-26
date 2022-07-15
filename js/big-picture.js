@@ -1,5 +1,5 @@
 const bigPictureElement = document.querySelector('.big-picture');
-const bigPictureCloseElement = bigPictureElement.querySelector('.big-picture__cancel');
+const bigPictureCloseElement = bigPictureElement.querySelector('#picture-cancel');
 const commentsContainerElement = bigPictureElement.querySelector('.social__comments');
 const commentTemplateElement = commentsContainerElement.querySelector('.social__comment');
 const commentAuthorIcon = commentTemplateElement.querySelector('.social__picture');
@@ -80,9 +80,6 @@ const closeBigPicture = () => {
   document.body.classList.remove('modal-open');
 
   document.removeEventListener('keydown', escKeydownHandler);
-
-  const listOfComments = Array.from(document.querySelectorAll('.social__comment'));
-  listOfComments.slice(5).forEach((item) => item.classList.add('hidden'));
 };
 
 function escKeydownHandler(evt) {
@@ -94,4 +91,4 @@ function escKeydownHandler(evt) {
 
 bigPictureCloseElement.addEventListener('click', closeBigPicture);
 
-export { showBigPicture };
+export { showBigPicture, closeBigPicture };
