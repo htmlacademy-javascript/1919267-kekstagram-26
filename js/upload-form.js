@@ -1,10 +1,12 @@
+import { addImagePreviewScale, addEffectsToPreviewImage } from './picture-preview-settings.js';
+
 const uploadFormElement = document.querySelector('#upload-select-image');
 const uploadFileElement = uploadFormElement.querySelector('#upload-file');
 const imageUploadCancelElement = uploadFormElement.querySelector('#upload-cancel');
 const uploadFormOverlayElement = uploadFormElement.querySelector('.img-upload__overlay');
 const hashtagsInputElement = uploadFormElement.querySelector('.text__hashtags');
 const uploadImageDescriptionElement = uploadFormElement.querySelector('.text__description');
-const imageUploadPreviewElement = uploadFormOverlayElement.querySelector('.img-upload__preview');
+// const imageUploadPreviewElement = uploadFormOverlayElement.querySelector('.img-upload__preview');
 const MAX_NUMBER_OF_HASHTAGS = 5;
 const MAX_IMAGE__DESCRIPTION__LENGTH = 140;
 
@@ -28,7 +30,8 @@ const openUploadForm = () => {
   uploadFormOverlayElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', escKeydownHandler);
-  imageUploadPreviewElement.querySelector('img').src = uploadFileElement.value;
+  addImagePreviewScale();
+  addEffectsToPreviewImage();
 };
 
 uploadFileElement.addEventListener('change', openUploadForm);
