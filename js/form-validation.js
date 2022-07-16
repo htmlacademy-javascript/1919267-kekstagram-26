@@ -3,18 +3,17 @@ import { inputUploadChangeHandler, closeUploadForm} from './upload-form.js';
 
 // Константы для валидации формы
 
+const MAX_NUMBER_OF_HASHTAGS = 5;
+const MAX_IMAGE__DESCRIPTION__LENGTH = 140;
 const uploadFormElement = document.querySelector('#upload-select-image');
 const hashtagsInputElement = uploadFormElement.querySelector('.text__hashtags');
 const uploadImageDescriptionElement = uploadFormElement.querySelector('.text__description');
 const imageUploadPreviewElement = uploadFormElement.querySelector('.img-upload__preview').querySelector('img');
 const submitButtonElement = uploadFormElement.querySelector('.img-upload__submit');
-const MAX_NUMBER_OF_HASHTAGS = 5;
-const MAX_IMAGE__DESCRIPTION__LENGTH = 140;
 
 // Константы для SuccessMessage и ErrorMessage
 
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
-
 const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 
 // Функции для валидации хештегов
@@ -92,7 +91,7 @@ const createSuccessMessage = () => {
 };
 
 const removeSuccessMessage = () => {
-  document.querySelectorAll('.success').forEach((element) => element.remove());
+  document.querySelector('.success').remove();
   document.removeEventListener('keydown', escKeydownOnSuccessMessageHandler);
 };
 
@@ -106,7 +105,7 @@ const addSuccessMessageHandlers = () => {
   successButtonElement.addEventListener('click', removeSuccessMessage);
   successMessageElement.addEventListener('click', successMessageElementHandler);
   document.addEventListener('keydown', escKeydownOnSuccessMessageHandler);
-  document.addEventListener('click', removeSuccessMessage);
+  window.addEventListener('click', removeSuccessMessage);
 };
 
 // Функции создания и удаления сообщения о провале загрузки
@@ -115,13 +114,14 @@ let errorMessageElement, errorButtonElement;
 const createErrorMessage = () => {
   const documentFragment = document.createDocumentFragment();
   errorMessageElement = errorMessageTemplate.cloneNode(true);
+  errorMessageElement.style.zIndex = '5';
   documentFragment.append(errorMessageElement);
   document.body.append(documentFragment);
   errorButtonElement = errorMessageElement.querySelector('.error__button');
 };
 
 const removeErrorMessage = () => {
-  document.querySelectorAll('.error').forEach((element) => element.remove());
+  document.querySelector('.error').remove();
   document.removeEventListener('keydown', escKeydownOnErrorMessageHandler);
 };
 
@@ -135,7 +135,7 @@ const addErrorMessageHandlers = () => {
   errorButtonElement.addEventListener('click', inputUploadChangeHandler);
   errorMessageElement.addEventListener('click', errorMessageElementHandler);
   document.addEventListener('keydown', escKeydownOnErrorMessageHandler);
-  document.addEventListener('click', removeErrorMessage);
+  window.addEventListener('click', removeErrorMessage);
 };
 
 // Функции нажатия ESC
@@ -144,7 +144,6 @@ function escKeydownOnSuccessMessageHandler (evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     removeSuccessMessage();
-    evt.stopPropagation();
   }
 }
 
@@ -152,7 +151,6 @@ function escKeydownOnErrorMessageHandler (evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     removeErrorMessage();
-    evt.stopPropagation();
   }
 }
 
@@ -190,7 +188,6 @@ const addFormValidation = () => {
         },
         () => {
           unblockSubmitButton();
-          closeUploadForm();
           createErrorMessage();
           addErrorMessageHandlers();
         },
