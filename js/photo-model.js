@@ -3,7 +3,8 @@ const model = {};
 
 const setStartModel = (photo) => {
   model.comments = [...photo.comments];
-  model.showedComments = ADDING_PORTION;
+  model.lastNumberShowedComment = 0;
+  model.showedComments = (photo.comments.length - ADDING_PORTION >= 0) ? ADDING_PORTION : photo.comments.length;
   model.commentsTotalNumber = photo.comments.length;
 };
 
@@ -14,16 +15,18 @@ const getShowedComments = () => model.showedComments;
 const getCommentsTotalNumber = () => model.commentsTotalNumber;
 
 const setNextPortionComments = () => {
-  model.showedComments += ADDING_PORTION;
+  if (model.showedComments + ADDING_PORTION < model.commentsTotalNumber) {
+    model.lastNumberShowedComment = model.showedComments;
+    model.showedComments += ADDING_PORTION;
+  } else {
+    model.lastNumberShowedComment = model.showedComments;
+    model.showedComments = model.commentsTotalNumber;
+  }
+
 };
 
-// const getPortionComments = () => [...model.comments.splice(model.showedComments - ADDING_PORTION, model.showedComments)];
-
 const getPortionComments = () => {
-  console.log('start -- ', model.showedComments - ADDING_PORTION);
-  const arr = [...model.comments.splice(model.showedComments - ADDING_PORTION, model.showedComments)];
-  console.log('end -- ', model.showedComments);
-  console.log(arr);
+  const arr = [...model.comments.slice(model.lastNumberShowedComment, model.showedComments)];
   return arr;
 };
 
@@ -36,4 +39,4 @@ const photoModel = {
   getPortionComments
 };
 
-export {photoModel};
+export { photoModel };
