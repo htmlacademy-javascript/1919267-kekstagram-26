@@ -1,4 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
+const TIME_OUT_DELAY = 500;
 
 const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
@@ -7,11 +8,17 @@ const getRandomPositiveInteger = (a, b) => {
   return Math.floor(result);
 };
 
-// const getRandomUniqueElements = (array) => {
-//   const newArray = array.slice();
-//   const elements = [];
-
-// };
+const getRandomUniqueElements = (array) => {
+  const newArray = array.slice();
+  const elements = [];
+  const newArrayLength = array.length;
+  for(let i = 0; i < newArrayLength; i++) {
+    const randomElement = getRandomPositiveInteger(0, newArray.length - 1);
+    elements.push(newArray[randomElement]);
+    newArray.splice(randomElement, 1);
+  }
+  return elements;
+};
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
@@ -36,4 +43,15 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {getRandomPositiveInteger, getRandomArrayElement, showAlert};
+// Функция взята из интернета и доработана
+// Источник - https://www.freecodecamp.org/news/javascript-debounce-example
+
+const debounce = (callback, timeoutDelay = TIME_OUT_DELAY) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomPositiveInteger, getRandomArrayElement, showAlert, getRandomUniqueElements, debounce};
