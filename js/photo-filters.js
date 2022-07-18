@@ -1,7 +1,6 @@
 import {getRandomUniqueElements, debounce} from './utils.js';
 import { renderSimilarPhotos } from './thumbnails.js';
 
-const NUMBER_RANDOM_PHOTOS = 10;
 const sectionFiltersElement = document.querySelector('.img-filters');
 const defaultButtonElement = sectionFiltersElement.querySelector('#filter-default');
 const randomButtonElement = sectionFiltersElement.querySelector('#filter-random');
@@ -13,7 +12,7 @@ const createDefaultFilter = (photos) => photos.slice();
 
 const createRandomFilter = (photos) => {
   const newPhotosArray = photos.slice();
-  return getRandomUniqueElements(newPhotosArray).slice(0, NUMBER_RANDOM_PHOTOS);
+  return getRandomUniqueElements(newPhotosArray);
 };
 
 const createSortedFilter = (photos) => {
