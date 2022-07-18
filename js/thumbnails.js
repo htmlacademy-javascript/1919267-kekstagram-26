@@ -1,5 +1,5 @@
 // import { createNewPhotos } from './data.js';
-import { showBigPicture } from './big-picture.js';
+import { showBigPicture } from './big-photo.js';
 
 const picturesContainerElement = document.querySelector('.pictures');
 

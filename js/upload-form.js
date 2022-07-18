@@ -1,4 +1,4 @@
-import { addImagePreviewScale, addEffectsToPreviewImage } from './picture-preview-settings.js';
+import { addImagePreviewScale, addEffectsToPreviewImage } from './photo-effects.js';
 import {showAlert} from './utils.js';
 
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png', 'webp'];
@@ -18,6 +18,7 @@ const uploadImage = () => {
   const matches = FILE_TYPES.some((fileExtension) => fileName.endsWith(fileExtension));
   if (matches) {
     imageUploadPreviewElement.src = URL.createObjectURL(file);
+    document.querySelectorAll('.effects__preview').forEach((element) => {element.style.backgroundImage = `url('${URL.createObjectURL(file)}')`;});
   } else {
     showAlert('Неверный формат изображения');
   }
@@ -29,6 +30,7 @@ const closeUploadForm = () => {
   document.removeEventListener('keydown', escKeydownHandler);
   uploadFormElement.reset();
   imageUploadPreviewElement.src = '';
+  document.querySelectorAll('.effects__preview').forEach((element) => { element.style.backgroundImage = 'url(../img/upload-default-image.jpg)';});
 };
 
 function escKeydownHandler(evt) {
