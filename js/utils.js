@@ -1,5 +1,6 @@
 const ALERT_SHOW_TIME = 5000;
 const TIME_OUT_DELAY = 500;
+const NUMBER_RANDOM_PHOTOS = 10;
 
 const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
@@ -16,6 +17,7 @@ const getRandomUniqueElements = (array) => {
     const randomElement = getRandomPositiveInteger(0, newArray.length - 1);
     elements.push(newArray[randomElement]);
     newArray.splice(randomElement, 1);
+    if (elements.length >= NUMBER_RANDOM_PHOTOS) {break;}
   }
   return elements;
 };
