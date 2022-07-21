@@ -22,8 +22,6 @@ const getRandomUniqueElements = (array) => {
   return elements;
 };
 
-const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
-
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '100';
@@ -56,4 +54,4 @@ const debounce = (callback, timeoutDelay = TIME_OUT_DELAY) => {
   };
 };
 
-export {getRandomPositiveInteger, getRandomArrayElement, showAlert, getRandomUniqueElements, debounce};
+export {getRandomPositiveInteger, showAlert, getRandomUniqueElements, debounce};

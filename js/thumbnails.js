@@ -1,11 +1,8 @@
-// import { createNewPhotos } from './data.js';
 import { showBigPicture } from './big-photo.js';
 
 const picturesContainerElement = document.querySelector('.pictures');
 
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
-
-// const thumbnails = createNewPhotos();
 
 const renderSimilarPhotos = (thumbnails) => {
   const thumbnailsFragment = document.createDocumentFragment();

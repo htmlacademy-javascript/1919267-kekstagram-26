@@ -26,9 +26,8 @@ const pristine = new Pristine(uploadFormElement, {
 const validateHashtagContent = (value) => {
   if (value === '') { return true; }
 
-  const re = /^#[A-Za-zA-Яа-яЁё0-9]{1,19}/;
+  const re = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
   const arrayOfMessages = value.split(/\s+/);
-
   return arrayOfMessages.every((item) => re.test(item));
 };
 
@@ -36,37 +35,24 @@ const isValidLength = (value) => {
   if (value === '') { return true; }
 
   const arrayOfMessages = value.split(/\s+/);
-
   return arrayOfMessages.every((item) => item.length > 1 && item.length < 20);
 };
 
 const checkNumberOfHashtags = (value) => {
   const arrayOfMessages = value.split(/\s+/);
-  if (arrayOfMessages.length > MAX_NUMBER_OF_HASHTAGS) {
-    return false;
-  }
-  return true;
+  return arrayOfMessages.length <= MAX_NUMBER_OF_HASHTAGS;
 };
 
 const findSameElements = (value) => {
   const arrayOfMessages = value.split(/\s+/);
-  const tempArray = [];
-  for (let i = 0; i < arrayOfMessages.length; i++) {
-    tempArray.push(arrayOfMessages[i]);
-    if (arrayOfMessages[i + 1] === tempArray[i]) {
-      return false;
-    }
-  }
-  return true;
+  return arrayOfMessages.every((item, index, array) => array.slice(index + 1, array.length).every((elem) => elem !== item));
 };
 
 const checkSpaces = (value) => {
   const re = /[0-9a-z_]#$/;
-  if (re.test(value)) {
-    return false;
-  }
-  return true;
+  return !re.test(value);
 };
+
 // Функции блокировки и разблокировки submit-кнопки
 
 const blockSubmitButton = () => {
@@ -91,7 +77,7 @@ const createSuccessMessage = () => {
 };
 
 const removeSuccessMessage = () => {
-  document.querySelector('.success').remove();
+  successMessageElement.remove();
   document.removeEventListener('keydown', escKeydownOnSuccessMessageHandler);
 };
 
@@ -121,7 +107,7 @@ const createErrorMessage = () => {
 };
 
 const removeErrorMessage = () => {
-  document.querySelector('.error').remove();
+  errorMessageElement.remove();
   document.removeEventListener('keydown', escKeydownOnErrorMessageHandler);
 };
 
