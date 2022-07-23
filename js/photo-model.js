@@ -26,8 +26,8 @@ const setNextPortionComments = () => {
 };
 
 const getPortionComments = () => {
-  const arr = [...model.comments.slice(model.lastNumberShowedComment, model.showedComments)];
-  return arr;
+  const newArrayComments = [...model.comments.slice(model.lastNumberShowedComment, model.showedComments)];
+  return newArrayComments;
 };
 
 const photoModel = {

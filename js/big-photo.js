@@ -56,7 +56,7 @@ const commentsLoaderButtonHandler = () => {
 const showBigPicture = (photo) => {
   photoModel.setStartModel(photo);
   bigPictureElement.classList.remove('hidden');
-  document.body.classList.add('.modal-open');
+  document.body.classList.add('modal-open');
 
   renderBigPicture(photo);
   renderCommentsStatistic(photoModel.getShowedComments(), photoModel.getCommentsTotalNumber());
