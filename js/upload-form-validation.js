@@ -26,7 +26,7 @@ const pristine = new Pristine(uploadFormElement, {
 const validateHashtagContent = (value) => {
   if (value === '') { return true; }
 
-  const re = /^#[A-Za-zА-Яа-яЁё0-9]/;
+  const re = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
   const arrayOfMessages = value.trim().split(/\s+/);
   return arrayOfMessages.every((item) => re.test(item));
 };
@@ -44,7 +44,7 @@ const checkNumberOfHashtags = (value) => {
 };
 
 const findSameElements = (value) => {
-  const arrayOfMessages = value.trim().split(/\s+/);
+  const arrayOfMessages = value.trim().toLowerCase().split(/\s+/);
   return arrayOfMessages.every((item, index, array) => array.slice(index + 1, array.length).every((elem) => elem !== item));
 };
 
